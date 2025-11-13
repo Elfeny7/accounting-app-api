@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\Auth\RegisterUserRequest;
 use App\Interfaces\Auth\AuthServiceInterface;
 
 class AuthController extends Controller
@@ -14,15 +15,9 @@ class AuthController extends Controller
         $this->authServiceInterface = $authServiceInterface;
     }
 
-    public function register(Request $request)
+    public function register(RegisterUserRequest $request)
     {
-        $validated = $request->validate([
-            'name'      => 'required|string|max:255',
-            'email'     => 'required|string|email|max:255|unique:users,email',
-            'password'  => 'required|string|min:6',
-        ]);
-
-        $data = $this->authServiceInterface->register($validated);
+        $data = $this->authServiceInterface->register($request->getRegisterPayload());
         return response()->json($data);
     }
 }
