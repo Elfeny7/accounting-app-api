@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Requests\Auth\RegisterUserRequest;
 use App\Interfaces\Auth\AuthServiceInterface;
+use App\Helper\ApiResponse;
 
 class AuthController extends Controller
 {
@@ -18,6 +18,6 @@ class AuthController extends Controller
     public function register(RegisterUserRequest $request)
     {
         $data = $this->authServiceInterface->register($request->getRegisterPayload());
-        return response()->json($data);
+        return ApiResponse::success($data, 'Register Successful', 201);
     }
 }
