@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Auth\RegisterUserRequest;
 use App\Interfaces\Auth\AuthServiceInterface;
 use App\Helper\ApiResponse;
+use App\Http\Resources\UserResource;
 
 class AuthController extends Controller
 {
@@ -18,6 +19,10 @@ class AuthController extends Controller
     public function register(RegisterUserRequest $request)
     {
         $data = $this->authServiceInterface->register($request->getRegisterPayload());
-        return ApiResponse::success($data, 'Register Successful', 201);
+        $responseData = [
+            'user' => new UserResource($data['user']),
+            'token' => $data['token']
+        ];
+        return ApiResponse::success($responseData, 'Register Successful', 201);
     }
 }
