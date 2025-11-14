@@ -19,9 +19,9 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->render(function (Throwable $e, $request) {
             if ($request->is('api/*')) {
                 if ($e instanceof \Illuminate\Validation\ValidationException) {
-                    return ApiResponse::validationError($e->errors(), 422);
+                    return ApiResponse::validationError($e->errors());
                 }
-                return ApiResponse::error($e, 500);
+                return ApiResponse::error($e);
             }
         });
     })->create();

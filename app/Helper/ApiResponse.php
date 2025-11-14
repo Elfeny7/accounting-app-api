@@ -4,19 +4,21 @@ namespace App\Helper;
 
 class ApiResponse
 {
-    public static function error($e, $code = 500)
+    public static function error($e, $message = 'Internal Server Error', $code = 500)
     {
         return response()->json([
             'success' => false,
-            'message' => $e->getMessage(),
+            'message' => $message,
+            'reason'  => $e->getMessage(),
         ], $code);
     }
 
-    public static function validationError($errors, $code = 422)
+    public static function validationError($errors, $message = "Validation Error", $code = 422)
     {
         return response()->json([
             'success' => false,
-            'message' => $errors,
+            'message' => $message,
+            'reason' => $errors,
         ], $code);
     }
 
