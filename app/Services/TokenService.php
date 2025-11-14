@@ -8,7 +8,24 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class TokenService implements TokenServiceInterface
 {
-    public function generate(User $user): string {
+    public function generate(User $user): string
+    {
         return JWTAuth::fromUser($user);
+    }
+
+    public function attempt(array $credentials): ?string
+    {
+        if (!$token = JWTAuth::attempt($credentials)) return null;
+        return $token;
+    }
+
+    public function getUser(): ?User
+    {
+        return JWTAuth::user();
+    }
+
+    public function getTTL(): int
+    {
+        return JWTAuth::factory()->getTTL() * 60;
     }
 }

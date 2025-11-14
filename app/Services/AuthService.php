@@ -17,9 +17,28 @@ class AuthService implements AuthServiceInterface
         $this->userServiceInterface = $userServiceInterface;
     }
 
-    public function register(array $payload){
+    public function register(array $payload)
+    {
         $user = $this->userServiceInterface->createUser($payload);
         $token = $this->tokenServiceInterface->generate($user);
         return compact('user', 'token');
+    }
+
+    public function login(array $credentials)
+    {
+        $token = $this->tokenServiceInterface->attempt($credentials);
+        $user = $this->getUser();
+
+        return [
+            'user' => $user,
+            'token' => $token,
+            'expires_in' => $this->tokenServiceInterface->getTTL(),
+        ];
+    }
+
+    public function getUser()
+    {
+        $user = $this->tokenServiceInterface->getUser();
+        return $user;
     }
 }
