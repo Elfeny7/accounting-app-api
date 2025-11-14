@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Interfaces\Auth\AuthServiceInterface;
 use App\Interfaces\Auth\TokenServiceInterface;
 use App\Interfaces\User\UserServiceInterface;
+use App\Exceptions\InvalidCredentialsException;
 
 class AuthService implements AuthServiceInterface
 {
@@ -27,6 +28,7 @@ class AuthService implements AuthServiceInterface
     public function login(array $credentials)
     {
         $token = $this->tokenServiceInterface->attempt($credentials);
+        if (!$token) throw new InvalidCredentialsException();
         $user = $this->getUser();
 
         return [

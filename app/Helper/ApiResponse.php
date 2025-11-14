@@ -6,11 +6,17 @@ class ApiResponse
 {
     public static function error($e, $message = 'Internal Server Error', $code = 500)
     {
-        return response()->json([
+        $response = [
             'success' => false,
             'message' => $message,
             'reason'  => $e->getMessage(),
-        ], $code);
+        ];
+
+        if (empty($result['reason'])) {
+            unset($response['reason']);
+        }
+
+        return response()->json($response, $code);
     }
 
     public static function validationError($errors, $message = "Validation Error", $code = 422)

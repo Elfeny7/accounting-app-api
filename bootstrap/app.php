@@ -21,6 +21,9 @@ return Application::configure(basePath: dirname(__DIR__))
                 if ($e instanceof \Illuminate\Validation\ValidationException) {
                     return ApiResponse::validationError($e->errors());
                 }
+                if ($e instanceof \App\Exceptions\InvalidCredentialsException) {
+                    return ApiResponse::error($e, 'Invalid email or password', 401);
+                }
                 return ApiResponse::error($e);
             }
         });
