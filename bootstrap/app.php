@@ -21,6 +21,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 if ($e instanceof \Illuminate\Validation\ValidationException) {
                     return ApiResponse::validationError($e->errors(), 422);
                 }
+                return ApiResponse::error($e, 500);
             }
         });
     })->create();
