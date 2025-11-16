@@ -5,16 +5,20 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use App\Interfaces\Auth\TokenServiceInterface;
 
 class JwtMiddleware
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
+    private TokenServiceInterface $tokenServiceInterface;
+
+    public function __construct(TokenServiceInterface $tokenServiceInterface)
+    {
+        $this->tokenServiceInterface = $tokenServiceInterface;
+    }
+
     public function handle(Request $request, Closure $next): Response
     {
+        $this->tokenServiceInterface->authenticate();
         return $next($request);
     }
 }

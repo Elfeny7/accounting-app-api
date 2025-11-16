@@ -11,4 +11,5 @@ interface TokenServiceInterface
     public function getUser(): ?User;
     public function getTTL(): int;
     public function invalidate(): void;
+    public function authenticate(): void;
 }

@@ -33,4 +33,9 @@ class TokenService implements TokenServiceInterface
     {
         JWTAuth::invalidate(JWTAuth::getToken());
     }
+
+    public function authenticate(): void
+    {
+        JWTAuth::parseToken()->authenticate();
+    }
 }

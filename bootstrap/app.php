@@ -3,6 +3,7 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use App\Http\Middleware\JwtMiddleware;
 use App\Helper\ApiResponse;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -13,7 +14,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->alias([
+            'jwt' => JwtMiddleware::class
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->render(function (Throwable $e, $request) {
@@ -23,6 +26,18 @@ return Application::configure(basePath: dirname(__DIR__))
                 }
                 if ($e instanceof \App\Exceptions\InvalidCredentialsException) {
                     return ApiResponse::error($e, 'Invalid email or password', 401);
+                }
+                if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenBlacklistedException) {
+                    return ApiResponse::error($e, 'Token blacklisted', 401);
+                }
+                if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException) {
+                    return ApiResponse::error($e, 'Token expired', 401);
+                }
+                if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException) {
+                    return ApiResponse::error($e, 'Token invalid', 401);
+                }
+                if ($e instanceof \Tymon\JWTAuth\Exceptions\JWTException) {
+                    return ApiResponse::error($e, 'Token not provided', 400);
                 }
                 return ApiResponse::error($e);
             }
