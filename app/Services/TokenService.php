@@ -28,4 +28,9 @@ class TokenService implements TokenServiceInterface
     {
         return JWTAuth::factory()->getTTL() * 60;
     }
+
+    public function invalidate(): void
+    {
+        JWTAuth::invalidate(JWTAuth::getToken());
+    }
 }

@@ -37,4 +37,10 @@ class AuthController extends Controller
         ];
         return ApiResponse::success($responseData, 'Login Successful', 200);
     }
+
+    public function logout()
+    {
+        $this->authServiceInterface->logout();
+        return ApiResponse::success(null, 'Logout Successful', 200);
+    }
 }

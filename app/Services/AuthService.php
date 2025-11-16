@@ -43,4 +43,9 @@ class AuthService implements AuthServiceInterface
         $user = $this->tokenServiceInterface->getUser();
         return $user;
     }
+
+    public function logout()
+    {
+        $this->tokenServiceInterface->invalidate();
+    }
 }

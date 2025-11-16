@@ -10,4 +10,5 @@ interface TokenServiceInterface
     public function attempt(array $credentials): ?string;
     public function getUser(): ?User;
     public function getTTL(): int;
+    public function invalidate(): void;
 }
