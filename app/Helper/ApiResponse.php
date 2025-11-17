@@ -12,7 +12,7 @@ class ApiResponse
             'reason'  => $e->getMessage(),
         ];
 
-        if (empty($result['reason'])) {
+        if (empty($response['reason'])) {
             unset($response['reason']);
         }
 
