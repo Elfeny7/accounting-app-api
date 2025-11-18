@@ -43,7 +43,6 @@ class TransactionService implements TransactionServiceInterface
 
             DB::commit();
             return $transaction;
-
         } catch (\Exception $e) {
             DB::rollback();
             throw $e;
@@ -66,7 +65,6 @@ class TransactionService implements TransactionServiceInterface
 
             DB::commit();
             return $transaction;
-
         } catch (\Exception $e) {
             DB::rollback();
             throw $e;
@@ -80,10 +78,21 @@ class TransactionService implements TransactionServiceInterface
 
             $this->transactionRepositoryInterface->delete($id);
             DB::commit();
-
         } catch (\Exception $e) {
             DB::rollback();
             throw $e;
         }
+    }
+
+    public function getDailyReport(string $date)
+    {
+        ['total_income' => $total_income, 'total_expense' => $total_expense] = $this->transactionRepositoryInterface->getIncomeExpenseByDate($date);
+
+        return [
+            'date'          => $date,
+            'total_income'  => $total_income,
+            'total_expense' => $total_expense,
+            'balance'       => $total_income - $total_expense,
+        ];
     }
 }

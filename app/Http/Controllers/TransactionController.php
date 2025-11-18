@@ -47,4 +47,10 @@ class TransactionController extends Controller
         $this->transactionServiceInterface->deleteTransaction($id);
         return ApiResponse::success(null, 'Transaction deleted', 204);
     }
+
+    public function dailyReport(string $date)
+    {
+        $report = $this->transactionServiceInterface->getDailyReport($date);
+        return ApiResponse::success($report, 'Daily report retrieved', 200);
+    }
 }

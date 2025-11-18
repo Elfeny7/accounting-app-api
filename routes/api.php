@@ -11,4 +11,5 @@ Route::middleware('jwt')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/me', [AuthController::class, 'getUser']);
     Route::apiResource('/transactions', TransactionController::class);
+    Route::get('/report/daily/{date}', [TransactionController::class, 'dailyReport']);
 });

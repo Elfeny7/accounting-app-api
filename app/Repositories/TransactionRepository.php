@@ -34,4 +34,19 @@ class TransactionRepository implements TransactionRepositoryInterface
     {
         Transaction::destroy($id);
     }
+
+    public function getIncomeExpenseByDate(string $date)
+    {
+        $total_income = Transaction::where('transaction_date', $date)
+            ->where('type', 'income')
+            ->sum('amount');
+        $total_expense = Transaction::where('transaction_date', $date)
+            ->where('type', 'expense')
+            ->sum('amount');
+
+        return [
+            'total_income'  => $total_income,
+            'total_expense' => $total_expense,
+        ];
+    }
 }
