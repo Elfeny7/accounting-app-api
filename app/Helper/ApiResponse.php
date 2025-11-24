@@ -9,11 +9,11 @@ class ApiResponse
         $response = [
             'success' => false,
             'message' => $message,
-            'reason'  => $e->getMessage(),
+            'error'  => $e->getMessage(),
         ];
 
-        if (empty($response['reason'])) {
-            unset($response['reason']);
+        if (empty($response['error'])) {
+            unset($response['error']);
         }
 
         return response()->json($response, $code);
@@ -24,7 +24,7 @@ class ApiResponse
         return response()->json([
             'success' => false,
             'message' => $message,
-            'reason' => $errors,
+            'error' => $errors,
         ], $code);
     }
 
